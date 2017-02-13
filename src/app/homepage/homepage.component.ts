@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import {ShoppingList} from "../model/shopping-list";
-import {ListService} from "../list.service";
+import {ShoppingListService} from "../shopping-list.service";
 
 @Component({
   moduleId: module.id,
@@ -12,7 +12,7 @@ import {ListService} from "../list.service";
 export class HomepageComponent implements OnInit{
   lists: ShoppingList[] = [];
 
-  constructor(private listService: ListService) {}
+  constructor(private listService: ShoppingListService) {}
 
   ngOnInit(): void {
     this.listService.getLists()

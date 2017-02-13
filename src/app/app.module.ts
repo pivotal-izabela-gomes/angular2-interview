@@ -6,7 +6,7 @@ import {InMemoryWebApiModule} from "angular-in-memory-web-api";
 import {InMemoryDataService} from "./in-memory-data.service";
 import {AppRoutingModule} from "./app-routing.module";
 import {HomepageComponent} from "./homepage/homepage.component";
-import {ListService} from "./list.service";
+import {ShoppingListService} from "./shopping-list.service";
 import {HttpModule} from "@angular/http";
 import {APP_BASE_HREF} from "@angular/common";
 
@@ -22,7 +22,7 @@ import {APP_BASE_HREF} from "@angular/common";
     HomepageComponent
   ],
   providers: [
-    ListService,
+    ShoppingListService,
     {provide: APP_BASE_HREF, useValue : '/' }
   ],
   bootstrap:    [ AppComponent ]

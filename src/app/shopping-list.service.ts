@@ -4,7 +4,7 @@ import 'rxjs/add/operator/toPromise';
 import {ShoppingList} from "./model/shopping-list";
 
 @Injectable()
-export class ListService {
+export class ShoppingListService {
 
   private listsUrl = 'api/lists';
   private headers = new Headers({'Content-Type': 'application/json'});

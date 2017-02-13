@@ -16,7 +16,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/toPromise';
 import {ShoppingList} from "./model/shopping-list";
-import {ListService} from "./list.service";
+import {ShoppingListService} from "./shopping-list.service";
 
 const makeListData = () => [
   { id: 1, name: 'Grocery List' },
@@ -24,13 +24,13 @@ const makeListData = () => [
   { id: 3, name: 'Pharmacy List' }
 ] as ShoppingList[];
 
-describe('Http-ListService (mockBackend)', () => {
+describe('Http-ShoppingListService (mockBackend)', () => {
 
   beforeEach( async(() => {
     TestBed.configureTestingModule({
       imports: [ HttpModule ],
       providers: [
-        ListService,
+        ShoppingListService,
         { provide: XHRBackend, useClass: MockBackend }
       ]
     })
@@ -38,14 +38,14 @@ describe('Http-ListService (mockBackend)', () => {
   }));
 
   it('can instantiate service when inject service',
-    inject([ListService], (service: ListService) => {
-      expect(service instanceof ListService).toBe(true);
+    inject([ShoppingListService], (service: ShoppingListService) => {
+      expect(service instanceof ShoppingListService).toBe(true);
     }));
 
   it('can instantiate service with "new"', inject([Http], (http: Http) => {
     expect(http).not.toBeNull('http should be provided');
-    let service = new ListService(http);
-    expect(service instanceof ListService).toBe(true, 'new service should be ok');
+    let service = new ShoppingListService(http);
+    expect(service instanceof ShoppingListService).toBe(true, 'new service should be ok');
   }));
 
   it('can provide the mockBackend as XHRBackend',
@@ -55,13 +55,13 @@ describe('Http-ListService (mockBackend)', () => {
 
   describe('when getLists', () => {
     let backend: MockBackend;
-    let service: ListService;
+    let service: ShoppingListService;
     let fakeLists: ShoppingList[];
     let response: Response;
 
     beforeEach(inject([Http, XHRBackend], (http: Http, be: MockBackend) => {
       backend = be;
-      service = new ListService(http);
+      service = new ShoppingListService(http);
       fakeLists = makeListData();
       let options = new ResponseOptions({status: 200, body: {data: fakeLists}});
       response = new Response(options);

@@ -1,7 +1,7 @@
 import {async, TestBed, ComponentFixture} from "@angular/core/testing";
 import {HomepageComponent} from "./homepage.component";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
-import {ListService} from "../list.service";
+import {ShoppingListService} from "../shopping-list.service";
 import {FakeShoppingListService} from "../fake-shopping-list.service";
 import {By} from "@angular/platform-browser";
 
@@ -13,7 +13,7 @@ describe('HomepageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [HomepageComponent],
       schemas: [NO_ERRORS_SCHEMA],
-      providers: [{provide: ListService, useClass: FakeShoppingListService}]
+      providers: [{provide: ShoppingListService, useClass: FakeShoppingListService}]
     }).compileComponents().then(() => {
       fixture = TestBed.createComponent(HomepageComponent);
       comp = fixture.componentInstance;
@@ -43,11 +43,10 @@ describe('HomepageComponent', () => {
         'should have shoppingLists after service promise resolves');
     });
 
-    it('should DISPLAY shoppingLists', () => {
+    it('should display shoppingLists', () => {
       const shoppingLists = fixture.debugElement.queryAll(By.css('a'));
       expect(shoppingLists.length).toBe(3, 'should display 3 shoppingLists');
     });
-  })
-
-})
+  });
+});
 
