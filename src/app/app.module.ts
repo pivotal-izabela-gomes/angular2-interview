@@ -9,10 +9,12 @@ import {HomepageComponent} from "./homepage/homepage.component";
 import {ShoppingListService} from "./shopping-list.service";
 import {HttpModule} from "@angular/http";
 import {APP_BASE_HREF} from "@angular/common";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   imports:      [
     BrowserModule,
+    FormsModule,
     HttpModule,
     InMemoryWebApiModule.forRoot(InMemoryDataService),
     AppRoutingModule
