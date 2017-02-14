@@ -2,12 +2,16 @@ import {async, TestBed, ComponentFixture} from "@angular/core/testing";
 import {RouterTestingModule} from "@angular/router/testing";
 import {AppComponent} from "./app.component";
 import {HomepageComponent} from "./homepage/homepage.component";
-import {Router} from "@angular/router";
+import {Router, RouterLinkWithHref} from "@angular/router";
 import {SpyLocation} from "@angular/common/testing";
-import {NO_ERRORS_SCHEMA} from "@angular/core";
+import {NO_ERRORS_SCHEMA, DebugElement} from "@angular/core";
 import {AppModule} from "./app.module";
 import {Location} from '@angular/common';
 import {By} from "@angular/platform-browser";
+import {ShoppingListService} from "./shopping-list.service";
+import {FakeShoppingListService} from "./fake-shopping-list.service";
+import {ListComponent} from "./list/list.component";
+import {AppRoutingModule} from "./app-routing.module";
 
 let comp:     AppComponent;
 let fixture:  ComponentFixture<AppComponent>;
@@ -18,8 +22,16 @@ describe('AppComponent & RouterTestingModule', () => {
 
   beforeEach( async(() => {
     TestBed.configureTestingModule({
-      imports: [ AppModule, RouterTestingModule ],
+      imports: [
+        AppRoutingModule,
+        RouterTestingModule ],
       schemas: [ NO_ERRORS_SCHEMA ],
+      declarations: [
+        AppComponent,
+        HomepageComponent,
+        ListComponent
+      ],
+      providers: [{provide: ShoppingListService, useClass: FakeShoppingListService}]
     })
       .compileComponents();
   }));

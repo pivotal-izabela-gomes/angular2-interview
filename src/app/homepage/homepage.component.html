@@ -1,5 +1,5 @@
 <div class="grid grid-pad">
-  <a *ngFor="let list of lists" class="col-1-4">
+  <a *ngFor="let list of lists" [routerLink]="['/list', list.id]"  class="col-1-4">
     <div class="module">
       <h4>{{list.name}}</h4>
     </div>
