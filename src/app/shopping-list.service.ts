@@ -11,7 +11,7 @@ export class ShoppingListService {
 
   constructor(private http: Http) {}
 
-  getLists(): Promise<ShoppingList[]> {
+  getShoppingLists(): Promise<ShoppingList[]> {
     return this.http.get(this.listsUrl)
       .toPromise()
       .then(response => response.json().data as ShoppingList[])

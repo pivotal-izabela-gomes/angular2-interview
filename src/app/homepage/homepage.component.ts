@@ -15,7 +15,7 @@ export class HomepageComponent implements OnInit{
   constructor(private listService: ShoppingListService) {}
 
   ngOnInit(): void {
-    this.listService.getLists()
+    this.listService.getShoppingLists()
       .then(lists => this.lists = lists);
   }
 }

@@ -12,7 +12,7 @@ export class FakeShoppingListService extends ShoppingListService {
   lists = LISTS.map(l => this.clone(l.id, l.name, l.items));
   lastPromise: Promise<any>;  // remember so we can spy on promise calls
 
-  getLists(): Promise<ShoppingList[]> {
+  getShoppingLists(): Promise<ShoppingList[]> {
     return this.lastPromise = Promise.resolve<ShoppingList[]>(this.lists);
   }
 

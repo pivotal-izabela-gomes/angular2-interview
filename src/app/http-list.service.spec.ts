@@ -70,7 +70,7 @@ describe('Http-ShoppingListService (mockBackend)', () => {
     it('should have expected fake lists (then)', async(inject([], () => {
       backend.connections.subscribe((c: MockConnection) => c.mockRespond(response));
 
-      service.getLists()
+      service.getShoppingLists()
         .then(lists => {
           expect(lists.length).toBe(fakeLists.length,
             'should have expected no. of shopping lists');
@@ -81,7 +81,7 @@ describe('Http-ShoppingListService (mockBackend)', () => {
       let resp = new Response(new ResponseOptions({status: 200, body: {data: []}}));
       backend.connections.subscribe((c: MockConnection) => c.mockRespond(resp));
 
-      service.getLists()
+      service.getShoppingLists()
         .then(lists => {
           expect(lists.length).toBe(0, 'should have no lists');
         });
