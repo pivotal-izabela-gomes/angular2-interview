@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http, Headers} from "@angular/http";
 import 'rxjs/add/operator/toPromise';
 import {ShoppingList} from "./model/shopping-list";
+import {Item} from "./model/item";
 
 @Injectable()
 export class ShoppingListService {
@@ -15,6 +16,14 @@ export class ShoppingListService {
     return this.http.get(this.listsUrl)
       .toPromise()
       .then(response => response.json().data as ShoppingList[])
+      .catch(this.handleError);
+  }
+
+  getShoppingList(id: number): Promise<ShoppingList> {
+    const url = this.listsUrl + `/${id}`;
+    return this.http.get(url)
+      .toPromise()
+      .then(response => response.json().data as ShoppingList)
       .catch(this.handleError);
   }
 

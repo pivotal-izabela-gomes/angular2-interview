@@ -1,8 +1,13 @@
 import {TestBed, ComponentFixture, async} from "@angular/core/testing";
 import {ListComponent} from "./list.component";
-import {DebugElement} from "@angular/core";
+import {DebugElement, Injectable, NO_ERRORS_SCHEMA} from "@angular/core";
 import {By} from "@angular/platform-browser";
 import {Location} from '@angular/common';
+import {ActivatedRoute} from "@angular/router";
+import {ShoppingListService} from "../shopping-list.service";
+import {FakeShoppingListService} from "../fake-shopping-list.service";
+import {Observable} from "rxjs/Rx";
+import {FormsModule} from "@angular/forms";
 import {SpyLocation} from "@angular/common/testing";
 
 let comp: ListComponent;
@@ -12,25 +17,54 @@ let navSpy: jasmine.Spy;
 describe('ListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [ FormsModule ],
       declarations: [ListComponent],
+      schemas: [NO_ERRORS_SCHEMA],
       providers: [
-        {provide: Location, useClass: SpyLocation},
-        ]
+        { provide: Location, useClass: SpyLocation },
+        { provide: ShoppingListService, useClass: FakeShoppingListService },
+        { provide: ActivatedRoute, useValue: { 'params': Observable.of({ 'id': 1 }) } },
+      ]
     }).compileComponents().then(() => {
       fixture = TestBed.createComponent(ListComponent);
       comp = fixture.componentInstance;
 
       const location = TestBed.get(Location);
-      this.navSpy = spyOn(location, 'back');
+      navSpy = spyOn(location, 'back');
     });
   }));
 
-  it('should navigate to previous page when back button is clicked', () => {
-    let button: DebugElement;
+  it('should not have list items before ngOnInit', () => {
+    expect(comp.items.length).toBe(0, 'should not have list items before ngOnInit');
+  });
 
-    button = fixture.debugElement.query(By.css('button'));
-    button.triggerEventHandler('click', null);
-    fixture.whenStable().then(() => {
+  it('should NOT have list items immediately after ngOnInit', () => {
+    fixture.detectChanges(); // runs initial lifecycle hooks
+
+    expect(comp.items.length).toBe(0,
+      'should not have list items until service promise resolves');
+  });
+
+  describe('after get list items', () => {
+    beforeEach(async(() => {
+      fixture.detectChanges();
+      fixture.whenStable().then(() => fixture.detectChanges());
+    }));
+
+    it('should have list items', () => {
+      expect(comp.items.length).toBeGreaterThan(0,
+        'should have list items after service promise resolves');
+    });
+
+    it('should display list items', () => {
+      const listItems = fixture.debugElement.queryAll(By.css('a'));
+      expect(listItems.length).toBe(1, 'should display 1 list items');
+    });
+
+    it('should navigate to previous page when back button is clicked', () => {
+      let button: DebugElement = fixture.debugElement.query(By.css('button'));
+      button.triggerEventHandler('click', null);
+
       expect(navSpy.calls.any()).toBe(true, 'location.back called');
     });
   });

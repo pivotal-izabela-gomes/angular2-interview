@@ -16,4 +16,11 @@ export class FakeShoppingListService extends ShoppingListService {
   }
 
   clone(id: number, name: string) { return {id: id, name: name}; }
+  getShoppingList(id: number | string): Promise<ShoppingList> {
+    if (typeof id === 'string') {
+      id = parseInt(id as string, 10);
+    }
+    let list = this.lists.find(l => l.id === id);
+    return this.lastPromise = Promise.resolve(list);
+  }
 }
