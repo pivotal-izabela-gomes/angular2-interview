@@ -3,4 +3,8 @@
   <a *ngFor="let item of items">
     <h4>{{item.name}}</h4>
   </a>
+  <label>New item:</label> <input #itemName />
+  <button (click)="add(itemName.value); itemName.value=''">
+    Add
+  </button>
 </div>

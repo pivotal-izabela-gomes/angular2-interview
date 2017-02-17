@@ -8,6 +8,7 @@ import {Item} from "./model/item";
 export class ShoppingListService {
 
   private listsUrl = 'api/lists';
+  private itemsUrl = 'api/items';
   private headers = new Headers({'Content-Type': 'application/json'});
 
   constructor(private http: Http) {}
@@ -19,11 +20,19 @@ export class ShoppingListService {
       .catch(this.handleError);
   }
 
-  getShoppingList(id: number): Promise<ShoppingList> {
-    const url = this.listsUrl + `/${id}`;
+  getItemsByListId(id: number): Promise<Item[]> {
+    const url = this.itemsUrl + `?listId=${id}`;
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json().data as ShoppingList)
+      .then(response => response.json().data as Item[])
+      .catch(this.handleError);
+  }
+
+  addItem(id: number | string, name: string): Promise<Item> {
+    return this.http
+      .post(this.itemsUrl, JSON.stringify({name: name, listId: id}), {headers: this.headers})
+      .toPromise()
+      .then(res => res.json().data)
       .catch(this.handleError);
   }
 

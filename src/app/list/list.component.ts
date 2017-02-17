@@ -12,6 +12,7 @@ import 'rxjs/add/operator/switchMap';
 })
 export class ListComponent implements OnInit{
   items: Item[] = [];
+  listId: number;
 
   constructor(
     private location: Location,
@@ -21,12 +22,24 @@ export class ListComponent implements OnInit{
 
   ngOnInit(): void {
     this.route.params
-      .switchMap((params: Params) => this.listService.getShoppingList(+params['id']))
-      .subscribe(shoppingList => this.items = shoppingList.items);
-
+      .switchMap((params: Params) => {
+        this.listId = params['id'];
+        return this.listService.getItemsByListId(+this.listId);
+      })
+      .subscribe(items => this.items = items);
   }
 
   goBack(): void {
     this.location.back();
+  }
+
+  add(name: string): void {
+    name = name.trim();
+    if (!name) { return; }
+
+    this.listService.addItem(this.listId, name)
+      .then(item =>
+        this.items.push(item)
+      );
   }
 }

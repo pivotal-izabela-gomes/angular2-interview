@@ -13,6 +13,7 @@ import {SpyLocation} from "@angular/common/testing";
 let comp: ListComponent;
 let fixture: ComponentFixture<ListComponent>;
 let navSpy: jasmine.Spy;
+let serviceSpy: jasmine.Spy;
 
 describe('ListComponent', () => {
   beforeEach(async(() => {
@@ -30,7 +31,9 @@ describe('ListComponent', () => {
       comp = fixture.componentInstance;
 
       const location = TestBed.get(Location);
+      const service = TestBed.get(ShoppingListService);
       navSpy = spyOn(location, 'back');
+      serviceSpy = spyOn(service, 'addItem').and.callThrough();
     });
   }));
 
@@ -67,5 +70,29 @@ describe('ListComponent', () => {
 
       expect(navSpy.calls.any()).toBe(true, 'location.back called');
     });
+
+    it('should add new item on the list when add button is clicked', async(() => {
+      const newItem = 'New Item';
+
+      let input: DebugElement = fixture.debugElement.query(By.css('input'));
+      input.nativeElement.value = newItem;
+
+      let buttons: DebugElement[] = fixture.debugElement.queryAll(By.css('button'));
+      buttons[1].triggerEventHandler('click', null);
+
+      expect(serviceSpy.calls.any()).toBe(true, 'service.addItem called');
+
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(comp.items[1].name).toBe(newItem,
+          'should have the new item added to the list');
+
+        expect(comp.items.length).toBe(2,
+          'should have 2 list items after adding the new one');
+
+        const listItems = fixture.debugElement.queryAll(By.css('a'));
+        expect(listItems.length).toBe(2, 'should display 2 list items');
+      });
+    }));
   });
 });
