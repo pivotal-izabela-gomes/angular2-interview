@@ -28,6 +28,14 @@ export class ShoppingListService {
       .catch(this.handleError);
   }
 
+  getItem(id: number): Promise<Item> {
+    const url = `${this.itemsUrl}/${id}`;
+    return this.http.get(url)
+      .toPromise()
+      .then(response => response.json().data as Item)
+      .catch(this.handleError);
+  }
+
   addItem(id: number | string, name: string): Promise<Item> {
     return this.http
       .post(this.itemsUrl, JSON.stringify({name: name, listId: id}), {headers: this.headers})

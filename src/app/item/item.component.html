@@ -1,1 +1,4 @@
-<div>Item page</div>
+<div *ngIf="item">
+  <div class="name">{{item.name}}</div>
+  <div class="id">{{item.id}}</div>
+</div>
