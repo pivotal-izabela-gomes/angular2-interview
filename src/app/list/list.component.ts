@@ -42,4 +42,12 @@ export class ListComponent implements OnInit{
         this.items.push(item)
       );
   }
+
+  delete(item: Item): void {
+    this.listService
+      .deleteItem(item.id)
+      .then(() => {
+        this.items = this.items.filter(i => i != item);
+      })
+  }
 }

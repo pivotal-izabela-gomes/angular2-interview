@@ -1,10 +1,13 @@
 <div>
   <button (click)="goBack()">Back</button>
   <a *ngFor="let item of items">
-    <h4>{{item.name}}</h4>
+    <h4>
+      {{item.name}}
+      <button (click)="delete(item)" class="delete">x</button>
+    </h4>
   </a>
   <label>New item:</label> <input #itemName />
-  <button (click)="add(itemName.value); itemName.value=''">
+  <button (click)="add(itemName.value); itemName.value=''" class="add">
     Add
   </button>
 </div>

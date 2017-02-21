@@ -13,7 +13,8 @@ import {SpyLocation} from "@angular/common/testing";
 let comp: ListComponent;
 let fixture: ComponentFixture<ListComponent>;
 let navSpy: jasmine.Spy;
-let serviceSpy: jasmine.Spy;
+let serviceAddSpy: jasmine.Spy;
+let serviceDeleteSpy: jasmine.Spy;
 
 describe('ListComponent', () => {
   beforeEach(async(() => {
@@ -33,7 +34,8 @@ describe('ListComponent', () => {
       const location = TestBed.get(Location);
       const service = TestBed.get(ShoppingListService);
       navSpy = spyOn(location, 'back');
-      serviceSpy = spyOn(service, 'addItem').and.callThrough();
+      serviceAddSpy = spyOn(service, 'addItem').and.callThrough();
+      serviceDeleteSpy = spyOn(service, 'deleteItem').and.callThrough();
     });
   }));
 
@@ -49,6 +51,8 @@ describe('ListComponent', () => {
   });
 
   describe('after get list items', () => {
+    const newItem = 'New Item';
+
     beforeEach(async(() => {
       fixture.detectChanges();
       fixture.whenStable().then(() => fixture.detectChanges());
@@ -72,15 +76,13 @@ describe('ListComponent', () => {
     });
 
     it('should add new item on the list when add button is clicked', async(() => {
-      const newItem = 'New Item';
-
       let input: DebugElement = fixture.debugElement.query(By.css('input'));
       input.nativeElement.value = newItem;
 
-      let buttons: DebugElement[] = fixture.debugElement.queryAll(By.css('button'));
-      buttons[1].triggerEventHandler('click', null);
+      let buttons: DebugElement[] = fixture.debugElement.queryAll(By.css('.add'));
+      buttons[0].triggerEventHandler('click', null);
 
-      expect(serviceSpy.calls.any()).toBe(true, 'service.addItem called');
+      expect(serviceAddSpy.calls.any()).toBe(true, 'service.addItem called');
 
       fixture.whenStable().then(() => {
         fixture.detectChanges();
@@ -92,6 +94,23 @@ describe('ListComponent', () => {
 
         const listItems = fixture.debugElement.queryAll(By.css('a'));
         expect(listItems.length).toBe(2, 'should display 2 list items');
+      });
+    }));
+
+    it('should delete item from list when delete button is clicked', async(() => {
+      let buttons: DebugElement[] = fixture.debugElement.queryAll(By.css('.delete'));
+      buttons[0].triggerEventHandler('click', null);
+
+      expect(serviceDeleteSpy.calls.any()).toBe(true, 'service.deleteItem called');
+
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+
+        expect(comp.items.length).toBe(0,
+          'should have 0 list items after deleting the first one');
+
+        const listItems = fixture.debugElement.queryAll(By.css('a'));
+        expect(listItems.length).toBe(0, 'should not display any list items');
       });
     }));
   });

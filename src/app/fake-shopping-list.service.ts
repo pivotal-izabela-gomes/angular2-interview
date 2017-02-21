@@ -44,6 +44,10 @@ export class FakeShoppingListService extends ShoppingListService {
     }
   }
 
+  deleteItem(id: number | string): Promise<void> {
+    return Promise.resolve(null);
+  }
+
   clone(id: number, name: string) { return {id: id, name: name}; }
   cloneItem(id: number, name: string, listId: number) { return {id: id, name: name, listId: listId}; }
 }
