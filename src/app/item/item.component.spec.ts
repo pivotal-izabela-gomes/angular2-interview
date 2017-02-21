@@ -5,18 +5,23 @@ import {ShoppingListService} from "../shopping-list.service";
 import {ActivatedRoute} from "@angular/router";
 import {Observable} from "rxjs/Rx";
 import {By} from "@angular/platform-browser";
-
+import {DebugElement} from "@angular/core";
+import {FormsModule} from "@angular/forms";
+import {SpyLocation} from "@angular/common/testing";
+import {Location} from '@angular/common';
 
 let comp: ItemComponent;
 let fixture: ComponentFixture<ItemComponent>;
+let navSpy: jasmine.Spy;
 
 describe('ItemComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      // imports: [FormsModule],
+      imports: [FormsModule],
       declarations: [ItemComponent],
       // schemas: [NO_ERRORS_SCHEMA],
       providers: [
+        { provide: Location, useClass: SpyLocation },
         { provide: ShoppingListService, useClass: FakeShoppingListService},
         { provide: ActivatedRoute, useValue: { 'params': Observable.of({ 'id': 1 }) } },
       ]
@@ -50,10 +55,40 @@ describe('ItemComponent', () => {
 
     it('should display item name and id', () => {
       const name = fixture.debugElement.query(By.css('.name'));
-      expect(name.nativeElement.textContent).toBe('Bread', 'should display item name');
+      expect(name.nativeElement.value).toBe('Bread', 'should display item name');
 
       const id = fixture.debugElement.query(By.css('.id'));
       expect(id.nativeElement.textContent).toBe('1', 'should display item id');
+    });
+
+    it('should save item when save button is clicked', () => {
+      let location = TestBed.get(Location);
+      navSpy = spyOn(location, 'back');
+
+      let serviceSpy = fixture.debugElement.injector.get(ShoppingListService);
+      let serviceUpdateSpy = spyOn(serviceSpy, 'updateItem').and.callThrough();
+
+      const newName = 'Beef';
+
+      let input: DebugElement = fixture.debugElement.query(By.css('input'));
+      input.nativeElement.value = newName;
+
+      let evt = document.createEvent('CustomEvent');  // MUST be 'CustomEvent'
+      evt.initCustomEvent('input', false, false, null);
+
+      input.nativeElement.dispatchEvent(evt); // tell Angular
+
+      expect(comp.item.name).toBe('Beef', 'should have new name after service promise resolves');
+
+      let button: DebugElement = fixture.debugElement.query(By.css('.save'));
+      button.triggerEventHandler('click', null);
+
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(serviceUpdateSpy.calls.any()).toBe(true, 'service called');
+        expect(navSpy.calls.any()).toBe(true, 'location.back called');
+      });
     });
   });
 });

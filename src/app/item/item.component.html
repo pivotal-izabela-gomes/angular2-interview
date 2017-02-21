@@ -1,4 +1,6 @@
 <div *ngIf="item">
-  <div class="name">{{item.name}}</div>
+  <input class="name" [(ngModel)]="item.name" />
   <div class="id">{{item.id}}</div>
+
+  <button (click)="save()" class="save">Save</button>
 </div>

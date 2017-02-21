@@ -52,6 +52,15 @@ export class ShoppingListService {
       .catch(this.handleError);
   }
 
+  updateItem(item: Item): Promise<Item> {
+    const url = `${this.itemsUrl}/${item.id}`;
+    return this.http
+      .put(url, JSON.stringify(item), {headers: this.headers})
+      .toPromise()
+      .then(() => item)
+      .catch(this.handleError);
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);

@@ -56,6 +56,10 @@ export class FakeShoppingListService extends ShoppingListService {
     return Promise.resolve(null);
   }
 
+  updateItem(item: Item): Promise<Item> {
+    return Promise.resolve(item);
+  }
+
   clone(id: number, name: string) { return {id: id, name: name}; }
   cloneItem(id: number, name: string, listId: number) { return {id: id, name: name, listId: listId}; }
 }
