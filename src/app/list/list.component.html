@@ -1,6 +1,6 @@
 <div>
   <button (click)="goBack()">Back</button>
-  <a *ngFor="let item of items">
+  <a *ngFor="let item of items" [routerLink]="['/item', item.id]">
     <h4>
       {{item.name}}
       <button (click)="delete(item)" class="delete">x</button>

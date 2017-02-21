@@ -12,6 +12,7 @@ import {ShoppingListService} from "./shopping-list.service";
 import {FakeShoppingListService} from "./fake-shopping-list.service";
 import {ListComponent} from "./list/list.component";
 import {AppRoutingModule} from "./app-routing.module";
+import {ItemComponent} from "./item/item.component";
 
 let comp:     AppComponent;
 let fixture:  ComponentFixture<AppComponent>;
@@ -29,7 +30,8 @@ describe('AppComponent & RouterTestingModule', () => {
       declarations: [
         AppComponent,
         HomepageComponent,
-        ListComponent
+        ListComponent,
+        ItemComponent
       ],
       providers: [{provide: ShoppingListService, useClass: FakeShoppingListService}]
     })

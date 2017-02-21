@@ -13,6 +13,7 @@ import {HomepageComponent} from "./homepage/homepage.component";
 import {ShoppingListService} from "./shopping-list.service";
 import {APP_BASE_HREF} from "@angular/common";
 import {ListComponent} from "./list/list.component";
+import {ItemComponent} from "./item/item.component";
 
 @NgModule({
   imports:      [
@@ -26,6 +27,7 @@ import {ListComponent} from "./list/list.component";
     AppComponent,
     HomepageComponent,
     ListComponent,
+    ItemComponent
   ],
   providers: [
     ShoppingListService,

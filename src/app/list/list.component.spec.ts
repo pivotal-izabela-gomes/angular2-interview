@@ -9,6 +9,7 @@ import {FakeShoppingListService} from "../fake-shopping-list.service";
 import {Observable} from "rxjs/Rx";
 import {FormsModule} from "@angular/forms";
 import {SpyLocation} from "@angular/common/testing";
+import {RouterLinkStubDirective} from "../homepage/homepage.component.spec";
 
 let comp: ListComponent;
 let fixture: ComponentFixture<ListComponent>;
@@ -20,7 +21,7 @@ describe('ListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ FormsModule ],
-      declarations: [ListComponent],
+      declarations: [ListComponent, RouterLinkStubDirective],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: Location, useClass: SpyLocation },
@@ -113,5 +114,25 @@ describe('ListComponent', () => {
         expect(listItems.length).toBe(0, 'should not display any list items');
       });
     }));
+
+    it('should tell ROUTER to navigate when item clicked', () => {
+      let links: RouterLinkStubDirective[];
+      let linkDes: DebugElement[];
+
+      linkDes = fixture.debugElement.queryAll(By.directive(RouterLinkStubDirective));
+      links = linkDes.map(de => de.injector.get(RouterLinkStubDirective) as RouterLinkStubDirective);
+
+      const itemsLinkDe = linkDes[0];
+      const itemsLink = links[0];
+
+      expect(itemsLink.navigatedTo).toBeNull('link should not have navigated yet');
+
+      itemsLinkDe.triggerEventHandler('click', null);
+      fixture.detectChanges();
+
+      expect(itemsLink.navigatedTo[0]).toBe("/item");
+      expect(itemsLink.navigatedTo[1]).toBe(1);
+
+    });
   });
 });
