@@ -26,7 +26,16 @@ export class ShoppingListService {
       .put(url, JSON.stringify(list), {headers: this.headers})
       .toPromise()
       .then(() => list)
-      .catch(this.handleError);  }
+      .catch(this.handleError);
+  }
+
+  addShoppingList(listName: string): Promise<ShoppingList> {
+    return this.http
+      .post(this.listsUrl, JSON.stringify({name: listName}), {headers: this.headers})
+      .toPromise()
+      .then(response => response.json().data)
+      .catch(this.handleError);
+  }
 
   getItemsByListId(id: number): Promise<Item[]> {
     const url = this.itemsUrl + `?listId=${id}`;

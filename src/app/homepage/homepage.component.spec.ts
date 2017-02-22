@@ -81,6 +81,23 @@ describe('HomepageComponent', () => {
       expect(listsLink.navigatedTo[1]).toBe(1);
 
     });
+
+    it('should be able to add a new list', () => {
+      let newListName = 'My New List';
+      let input = fixture.debugElement.query(By.css('input'));
+      input.nativeElement.value = newListName;
+
+      let button = fixture.debugElement.query(By.css('button'));
+      button.triggerEventHandler('click', null);
+
+      expect(comp.lists.length).toBe(4, 'homepage should have 2 lists');
+      expect(comp.lists[3].name).toBe(newListName, 'homepage should have the new list');
+
+      fixture.detectChanges();
+
+      const shoppingLists = fixture.debugElement.queryAll(By.css('a'));
+      expect(shoppingLists.length).toBe(4, 'should display 4 shoppingLists');
+    })
   });
 });
 

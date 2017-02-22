@@ -25,6 +25,12 @@ export class FakeShoppingListService extends ShoppingListService {
     return Promise.resolve(null);
   }
 
+  addShoppingList(name: string): Promise<ShoppingList> {
+     let newList = { id: this.lists.length + 1, name: name };
+     this.lists.push(newList);
+     return this.lastPromise = Promise.resolve(newList);
+  }
+
   getItem(id: number) {
     if (typeof id === 'string') {
       id = parseInt(id as string, 10);

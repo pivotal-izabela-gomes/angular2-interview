@@ -6,3 +6,7 @@
     </div>
   </a>
 </div>
+<label>New list:</label> <input class="new-list" #listName />
+<button (click)="add(listName.value); listName.value=''" class="add">
+  Add
+</button>

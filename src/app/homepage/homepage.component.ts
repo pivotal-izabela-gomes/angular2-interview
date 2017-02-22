@@ -18,4 +18,8 @@ export class HomepageComponent implements OnInit{
     this.listService.getShoppingLists()
       .then(lists => this.lists = lists);
   }
+
+  add(listName: string): void {
+    this.listService.addShoppingList(listName).then((list: ShoppingList) => this.lists.push(list))
+  }
 }
