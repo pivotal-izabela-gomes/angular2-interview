@@ -24,11 +24,4 @@ describe('AppComponent', function () {
   });
 
   it('should create component', () => expect(comp).toBeDefined() );
-
-  it('should have expected <h1> text', () => {
-    fixture.detectChanges();
-    const h1 = de.nativeElement;
-    expect(h1.innerText).toMatch(/my shopping list/i,
-      '<h1> should say something about "My Shopping List"');
-  });
 });

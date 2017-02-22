@@ -14,6 +14,7 @@ import {RouterLinkStubDirective} from "../homepage/homepage.component.spec";
 let comp: ListComponent;
 let fixture: ComponentFixture<ListComponent>;
 let navSpy: jasmine.Spy;
+let serviceSaveNameSpy: jasmine.Spy;
 let serviceAddSpy: jasmine.Spy;
 let serviceDeleteSpy: jasmine.Spy;
 
@@ -35,6 +36,7 @@ describe('ListComponent', () => {
       const location = TestBed.get(Location);
       const service = TestBed.get(ShoppingListService);
       navSpy = spyOn(location, 'back');
+      serviceSaveNameSpy = spyOn(service, 'updateShoppingList').and.callThrough();
       serviceAddSpy = spyOn(service, 'addItem').and.callThrough();
       serviceDeleteSpy = spyOn(service, 'deleteItem').and.callThrough();
     });
@@ -77,7 +79,7 @@ describe('ListComponent', () => {
     });
 
     it('should add new item on the list when add button is clicked', async(() => {
-      let input: DebugElement = fixture.debugElement.query(By.css('input'));
+      let input: DebugElement = fixture.debugElement.query(By.css('.new-item'));
       input.nativeElement.value = newItem;
 
       let buttons: DebugElement[] = fixture.debugElement.queryAll(By.css('.add'));
@@ -134,5 +136,31 @@ describe('ListComponent', () => {
       expect(itemsLink.navigatedTo[1]).toBe(1);
 
     });
+
+    it('should save new list name when enter is pressed', async(() => {
+      let newName = 'New List Name';
+      const label = fixture.debugElement.query(By.css('.list-name-display'));
+      label.triggerEventHandler('click', null);
+      fixture.detectChanges();
+
+      let input: DebugElement = fixture.debugElement.query(By.css('.list-name'));
+      input.nativeElement.value = newName;
+
+      let evt = document.createEvent('CustomEvent');  // MUST be 'CustomEvent'
+      evt.initCustomEvent('input', false, false, null);
+
+      input.nativeElement.dispatchEvent(evt); // tell Angular
+
+      input.triggerEventHandler('keydown.enter', null);
+      expect(serviceSaveNameSpy.calls.any()).toBe(true, 'service.saveName called');
+
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(comp.list.name).toBe(newName, 'should have the new list name');
+
+        const label = fixture.debugElement.query(By.css('.list-name-display'));
+        expect(label.nativeElement.textContent).toBe(newName, 'should display the new list name');
+      });
+    }));
   });
 });

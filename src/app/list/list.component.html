@@ -1,12 +1,17 @@
-<div>
-  <button (click)="goBack()">Back</button>
+<button (click)="goBack()">Back</button>
+<div *ngIf="list">
+  <label class="list-name-display" *ngIf="!isEdit" (click)="isEdit=true" from="name">{{list.name}}</label>
+  <input *ngIf="isEdit" (keydown.enter)="isEdit=false; saveName()"
+         type="text"
+         id="name" [(ngModel)]="list.name"
+          class="list-name">
   <a *ngFor="let item of items" [routerLink]="['/item', item.id]">
     <h4>
       {{item.name}}
       <button (click)="delete(item)" class="delete">x</button>
     </h4>
   </a>
-  <label>New item:</label> <input #itemName />
+  <label>New item:</label> <input class="new-item" #itemName />
   <button (click)="add(itemName.value); itemName.value=''" class="add">
     Add
   </button>

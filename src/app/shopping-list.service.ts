@@ -20,6 +20,14 @@ export class ShoppingListService {
       .catch(this.handleError);
   }
 
+  updateShoppingList(list: ShoppingList): Promise<void> {
+    const url = `${this.listsUrl}/${list.id}`;
+    return this.http
+      .put(url, JSON.stringify(list), {headers: this.headers})
+      .toPromise()
+      .then(() => list)
+      .catch(this.handleError);  }
+
   getItemsByListId(id: number): Promise<Item[]> {
     const url = this.itemsUrl + `?listId=${id}`;
     return this.http.get(url)

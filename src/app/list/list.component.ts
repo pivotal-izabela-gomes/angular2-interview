@@ -4,6 +4,7 @@ import {Item} from "../model/item";
 import {ShoppingListService} from "../shopping-list.service";
 import {ActivatedRoute, Params} from "@angular/router";
 import 'rxjs/add/operator/switchMap';
+import {ShoppingList} from "../model/shopping-list";
 
 @Component({
   moduleId: module.id,
@@ -13,6 +14,7 @@ import 'rxjs/add/operator/switchMap';
 export class ListComponent implements OnInit{
   items: Item[] = [];
   listId: number;
+  list: ShoppingList;
 
   constructor(
     private location: Location,
@@ -24,6 +26,7 @@ export class ListComponent implements OnInit{
     this.route.params
       .switchMap((params: Params) => {
         this.listId = params['id'];
+        this.listService.getShoppingLists().then(lists => this.list = lists.find(l => l.id == this.listId));
         return this.listService.getItemsByListId(+this.listId);
       })
       .subscribe(items => this.items = items);
@@ -31,6 +34,10 @@ export class ListComponent implements OnInit{
 
   goBack(): void {
     this.location.back();
+  }
+
+  saveName(): void {
+    this.listService.updateShoppingList(this.list).then();
   }
 
   add(name: string): void {
