@@ -37,6 +37,14 @@ export class ShoppingListService {
       .catch(this.handleError);
   }
 
+  deleteShoppingList(id: number | string): Promise<void> {
+    const url = `${this.listsUrl}/${id}`;
+    return this.http.delete(url, {headers: this.headers})
+      .toPromise()
+      .then(() => null)
+      .catch(this.handleError);
+  }
+
   getItemsByListId(id: number): Promise<Item[]> {
     const url = this.itemsUrl + `?listId=${id}`;
     return this.http.get(url)

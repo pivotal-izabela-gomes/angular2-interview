@@ -7,6 +7,7 @@ import {By} from "@angular/platform-browser";
 
 let comp: HomepageComponent;
 let fixture: ComponentFixture<HomepageComponent>;
+let serviceDeleteSpy: jasmine.Spy;
 
 @Directive({
   selector: '[routerLink]',
@@ -32,6 +33,9 @@ describe('HomepageComponent', () => {
     }).compileComponents().then(() => {
       fixture = TestBed.createComponent(HomepageComponent);
       comp = fixture.componentInstance;
+
+      let service = TestBed.get(ShoppingListService);
+      serviceDeleteSpy = spyOn(service, 'deleteShoppingList').and.callThrough();
     })
   }));
 
@@ -82,22 +86,37 @@ describe('HomepageComponent', () => {
 
     });
 
-    it('should be able to add a new list', () => {
+    it('should add new list when add button is clicked', () => {
       let newListName = 'My New List';
       let input = fixture.debugElement.query(By.css('input'));
       input.nativeElement.value = newListName;
 
-      let button = fixture.debugElement.query(By.css('button'));
-      button.triggerEventHandler('click', null);
+      let addButton = fixture.debugElement.query(By.css('.add'));
+      addButton.triggerEventHandler('click', null);
 
-      expect(comp.lists.length).toBe(4, 'homepage should have 2 lists');
+      expect(comp.lists.length).toBe(4, 'homepage should have 4 lists');
       expect(comp.lists[3].name).toBe(newListName, 'homepage should have the new list');
 
       fixture.detectChanges();
 
       const shoppingLists = fixture.debugElement.queryAll(By.css('a'));
       expect(shoppingLists.length).toBe(4, 'should display 4 shoppingLists');
-    })
+    });
+
+    it('should remove list when delete button is clicked', () => {
+      let deleteButton = fixture.debugElement.queryAll(By.css('.delete'));
+      deleteButton[0].triggerEventHandler('click', null);
+
+      expect(serviceDeleteSpy.calls.any()).toBe(true, 'service.deleteShoppingList called');
+
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(comp.lists.length).toBe(2, 'should have 2 lists after deleting one');
+
+        const shoppingLists = fixture.debugElement.queryAll(By.css('a'));
+        expect(shoppingLists.length).toBe(2, 'should display 2 shoppingLists');
+      });
+    });
   });
 });
 

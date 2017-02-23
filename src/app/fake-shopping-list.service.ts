@@ -31,6 +31,10 @@ export class FakeShoppingListService extends ShoppingListService {
      return this.lastPromise = Promise.resolve(newList);
   }
 
+  deleteShoppingList(listId: number): Promise<void> {
+    return Promise.resolve(null);
+  }
+
   getItem(id: number) {
     if (typeof id === 'string') {
       id = parseInt(id as string, 10);

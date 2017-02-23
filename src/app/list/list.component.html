@@ -5,12 +5,12 @@
          type="text"
          id="name" [(ngModel)]="list.name"
           class="list-name">
-  <a *ngFor="let item of items" [routerLink]="['/item', item.id]">
+  <div *ngFor="let item of items">
     <h4>
-      {{item.name}}
+      <a [routerLink]="['/item', item.id]">{{item.name}}</a>
       <button (click)="delete(item)" class="delete">x</button>
     </h4>
-  </a>
+  </div>
   <label>New item:</label> <input class="new-item" #itemName />
   <button (click)="add(itemName.value); itemName.value=''" class="add">
     Add

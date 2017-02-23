@@ -20,6 +20,14 @@ export class HomepageComponent implements OnInit{
   }
 
   add(listName: string): void {
-    this.listService.addShoppingList(listName).then((list: ShoppingList) => this.lists.push(list))
+    this.listService.addShoppingList(listName).then((list: ShoppingList) => this.lists.push(list));
+  }
+
+  delete(list: ShoppingList): void {
+    this.listService
+      .deleteShoppingList(list.id)
+      .then(() => {
+        this.lists = this.lists.filter(l => l != list);
+      })
   }
 }

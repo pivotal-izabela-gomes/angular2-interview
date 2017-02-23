@@ -1,10 +1,11 @@
 <h1>My Shopping Lists</h1>
 <div class="grid grid-pad">
-  <a *ngFor="let list of lists" [routerLink]="['/list', list.id]"  class="col-1-4">
-    <div class="module">
-      <h4>{{list.name}}</h4>
-    </div>
-  </a>
+  <div *ngFor="let list of lists" class="col-1-4">
+    <h4>
+      <a [routerLink]="['/list', list.id]">{{list.name}}</a>
+      <button (click)="delete(list)" class="delete">x</button>
+    </h4>
+  </div>
 </div>
 <label>New list:</label> <input class="new-list" #listName />
 <button (click)="add(listName.value); listName.value=''" class="add">
