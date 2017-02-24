@@ -15,4 +15,10 @@
   <button (click)="add(itemName.value); itemName.value=''" class="add">
     Add
   </button>
+  <input #searchBox class="search-box" (keyup)="search(searchBox.value)" />
+  <div>
+    <div *ngFor="let foundItem of foundItems | async" class="search-result">
+      {{foundItem.name}}
+    </div>
+  </div>
 </div>

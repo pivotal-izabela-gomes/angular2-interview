@@ -1,12 +1,12 @@
-import {TestBed, ComponentFixture, async} from "@angular/core/testing";
+import {TestBed, ComponentFixture, async, fakeAsync, tick} from "@angular/core/testing";
 import {ListComponent} from "./list.component";
-import {DebugElement, Injectable, NO_ERRORS_SCHEMA} from "@angular/core";
+import {DebugElement, NO_ERRORS_SCHEMA} from "@angular/core";
 import {By} from "@angular/platform-browser";
 import {Location} from '@angular/common';
 import {ActivatedRoute} from "@angular/router";
 import {ShoppingListService} from "../shopping-list.service";
 import {FakeShoppingListService} from "../fake-shopping-list.service";
-import {Observable} from "rxjs/Rx";
+import {Observable} from "rxjs/Observable";
 import {FormsModule} from "@angular/forms";
 import {SpyLocation} from "@angular/common/testing";
 import {RouterLinkStubDirective} from "../homepage/homepage.component.spec";
@@ -163,4 +163,48 @@ describe('ListComponent', () => {
       });
     }));
   });
+});
+
+describe('ListComponent - Search', () => {
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [ FormsModule ],
+      declarations: [ListComponent, RouterLinkStubDirective],
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [
+        { provide: Location, useClass: SpyLocation },
+        { provide: ShoppingListService, useClass: FakeShoppingListService },
+        { provide: ActivatedRoute, useValue: { 'params': Observable.of({ 'id': 2 }) } },
+      ]
+    }).compileComponents().then(() => {
+      fixture = TestBed.createComponent(ListComponent);
+      comp = fixture.componentInstance;
+    });
+  }));
+
+  beforeEach(async(() => {
+    fixture.detectChanges();
+    fixture.whenStable().then(() => fixture.detectChanges());
+  }));
+
+  it('should search for items in the list', fakeAsync(()=> {
+    let input: DebugElement = fixture.debugElement.query(By.css('.search-box'));
+    input.nativeElement.value = 'Mil';
+
+    let evt = document.createEvent('CustomEvent');  // MUST be 'CustomEvent'
+    evt.initCustomEvent('input', false, false, null);
+
+    input.nativeElement.dispatchEvent(evt); // tell Angular
+
+    input.triggerEventHandler('keyup', null);
+
+    fixture.detectChanges();
+    tick(300);
+    fixture.detectChanges();
+
+    let searchResults: DebugElement[] = fixture.debugElement.queryAll(By.css('.search-result'));
+    expect(searchResults.length).toBe(1, 'should find 1 element in search');
+    expect(searchResults[0].nativeElement.textContent).toContain('Milk', 'should find Milk in search');
+  }));
 });

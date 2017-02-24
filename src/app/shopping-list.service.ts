@@ -3,6 +3,8 @@ import {Http, Headers} from "@angular/http";
 import 'rxjs/add/operator/toPromise';
 import {ShoppingList} from "./model/shopping-list";
 import {Item} from "./model/item";
+import {Observable} from "rxjs/Observable";
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ShoppingListService {
@@ -84,6 +86,13 @@ export class ShoppingListService {
       .toPromise()
       .then(() => item)
       .catch(this.handleError);
+  }
+
+  search(term: string, listId: number): Observable<Item[]> {
+    const url = this.itemsUrl + `?listId=${listId}&name=${term}`;
+    return this.http
+      .get(url)
+      .map(response => response.json().data as Item[]);
   }
 
   private handleError(error: any): Promise<any> {

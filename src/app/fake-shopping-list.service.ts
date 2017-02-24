@@ -1,6 +1,7 @@
 import {ShoppingList} from "./model/shopping-list";
 import {ShoppingListService} from "./shopping-list.service";
 import {Item} from "./model/item";
+import {Observable} from "rxjs/Observable";
 
 export var LISTS: ShoppingList[] = [
   { id: 1, name: 'Grocery List'},
@@ -9,7 +10,9 @@ export var LISTS: ShoppingList[] = [
 ];
 
 export var ITEMS: Item[] = [
-  { id: 1, name: 'Bread', listId: 1 }
+  { id: 1, name: 'Bread', listId: 1 },
+  { id: 1, name: 'Milk', listId: 2 },
+  { id: 1, name: 'Cheese', listId: 2 }
 ];
 
 export class FakeShoppingListService extends ShoppingListService {
@@ -72,6 +75,13 @@ export class FakeShoppingListService extends ShoppingListService {
 
   updateItem(item: Item): Promise<Item> {
     return Promise.resolve(item);
+  }
+
+  search(term: string, listId: number): Observable<Item[]> {
+    let itemsFound = this.items.filter(i => {
+      return i.listId === listId && i.name.startsWith(term);
+    });
+    return Observable.of(itemsFound);
   }
 
   clone(id: number, name: string) { return {id: id, name: name}; }
