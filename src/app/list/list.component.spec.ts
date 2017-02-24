@@ -206,5 +206,25 @@ describe('ListComponent - Search', () => {
     let searchResults: DebugElement[] = fixture.debugElement.queryAll(By.css('.search-result'));
     expect(searchResults.length).toBe(1, 'should find 1 element in search');
     expect(searchResults[0].nativeElement.textContent).toContain('Milk', 'should find Milk in search');
+
+    let links: RouterLinkStubDirective[];
+    let linkDes: DebugElement[];
+
+    linkDes = fixture.debugElement.queryAll(By.css('.found-item'));
+    links = linkDes.map(de => de.injector.get(RouterLinkStubDirective) as RouterLinkStubDirective);
+
+    const itemsLinkDe = linkDes[0];
+    const itemsLink = links[0];
+
+    expect(itemsLink.navigatedTo).toBeNull('link should not have navigated yet');
+
+    itemsLinkDe.triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    expect(itemsLink.navigatedTo[0]).toBe("/item");
+    expect(itemsLink.navigatedTo[1]).toBe(1);
+
+    searchResults[0].triggerEventHandler('click', null);
+
   }));
 });

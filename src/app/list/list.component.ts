@@ -11,7 +11,8 @@ import {Observable} from "rxjs/Observable";
 @Component({
   moduleId: module.id,
   selector: 'list',
-  templateUrl: './list.component.html'
+  templateUrl: './list.component.html',
+  styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit{
   items: Item[] = [];

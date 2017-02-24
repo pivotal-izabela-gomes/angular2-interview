@@ -15,10 +15,13 @@
   <button (click)="add(itemName.value); itemName.value=''" class="add">
     Add
   </button>
-  <input #searchBox class="search-box" (keyup)="search(searchBox.value)" />
   <div>
-    <div *ngFor="let foundItem of foundItems | async" class="search-result">
-      {{foundItem.name}}
+    <h4>Search for an item</h4>
+    <input #searchBox class="search-box" (keyup)="search(searchBox.value)" />
+    <div>
+      <div *ngFor="let foundItem of foundItems | async" class="search-result">
+        <a [routerLink]="['/item', foundItem.id]" class="found-item">{{foundItem.name}}</a>
+      </div>
     </div>
   </div>
 </div>
