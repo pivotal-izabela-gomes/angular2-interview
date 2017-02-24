@@ -1,0 +1,78 @@
+Id,Title,Labels,Iteration,Iteration Start,Iteration End,Type,Estimate,Current State,Created at,Accepted at,Deadline,Requested By,Description,URL,Owned By,Comment
+139557165,"When I click a list, it should go to the list page","",1,"Feb 20, 2017","Feb 26, 2017",feature,1,finished,"Feb 10, 2017",,,Izabela Gomes,"As a user of the grocery app, I want to be able to click the list so that I can view the items on my list
+
+**Given** a user is on the homepage
+**When** they click on a list name
+**Then** they are routed to a new page",https://www.pivotaltracker.com/story/show/139557165,Izabela Gomes,"Commit by Pivotal
+https://github.com/pivotal-izabela-gomes/angular2-interview/commit/8ce2ce586f6cd94ea622c1e88f0a8073b4d4f31b
+
+[#139557165] Added navigation to list page (Izabela Gomes - Feb 14, 2017)"
+139557475,List page should have button to return to homepage,"",1,"Feb 20, 2017","Feb 26, 2017",feature,,unstarted,"Feb 10, 2017",,,Izabela Gomes,"As a user of the grocery app, I want to be able to click in a button to go back to the homepage
+
+**Given** a user is on the list page
+**When** they click on homepage button
+**Then** they should be routed to the homepage",https://www.pivotaltracker.com/story/show/139557475,
+139557321,List page should show the list items from database,"",1,"Feb 20, 2017","Feb 26, 2017",feature,,unstarted,"Feb 10, 2017",,,Izabela Gomes,"As a user of the grocery app, I want to be able to see previous items on my list
+
+**Given** a user is on the list page
+**When** the page loads
+**Then** they should see all the items stored in the database",https://www.pivotaltracker.com/story/show/139557321,
+139558179,User should be able to add an item to a list,"",1,"Feb 20, 2017","Feb 26, 2017",feature,,unstarted,"Feb 10, 2017",,,Izabela Gomes,"As a user of the grocery app, I want to be able to add an item to a list
+
+**Given** a user is on the list page
+**When** they fill out the input field
+**And** click on the add button
+**Then** a new item is saved in the database
+**And** a new item is shown in the list",https://www.pivotaltracker.com/story/show/139558179,
+139558265,User should be able to delete an item from the list,"",1,"Feb 20, 2017","Feb 26, 2017",feature,,unstarted,"Feb 10, 2017",,,Izabela Gomes,"As a user of the grocery app, I want to be able to delete an item from a list
+
+**Given** a user is on the list page
+**When** they click on the delete button
+**Then** the item is removed from the database
+**And** the item is not shown in the list anymore",https://www.pivotaltracker.com/story/show/139558265,
+139558743,Clicking an item should open a grocery item page,"",1,"Feb 20, 2017","Feb 26, 2017",feature,,unstarted,"Feb 10, 2017",,,Izabela Gomes,"As a user of the grocery app, I want to be able to click on the list items
+
+**Given** a user is on the list page
+**When** they click on an item
+**Then** they are routed to the grocery item page
+**And** they see their grocery item name and id",https://www.pivotaltracker.com/story/show/139558743,
+139559149,User should be able to edit an item in the list,"",1,"Feb 20, 2017","Feb 26, 2017",feature,,unstarted,"Feb 10, 2017",,,Izabela Gomes,"As a user of the grocery app, I want to be able to edit an existing item in the list
+
+**Given** a user is on the grocery item page
+**When** they change the item name
+**And** click the save button
+**Then** they are returned to the list page
+**And** the name is updated in the database
+**And** they see the name updated on the list page",https://www.pivotaltracker.com/story/show/139559149,
+139560053,User should be able to change the name of a list,"",1,"Feb 20, 2017","Feb 26, 2017",feature,,unstarted,"Feb 10, 2017",,,Izabela Gomes,"As a user of the grocery app, I want to be able to change the name of my list
+
+**Given** a user is on the grocery item page
+**When** they click the list name
+**Then** the field become editable
+
+**Given** a user has changed the list name
+**When** they press enter
+**Then** the list name is changed in the database
+**And** the list name is updated on the grocery item page",https://www.pivotaltracker.com/story/show/139560053,
+139560159,User should be able to add a new list,"",1,"Feb 20, 2017","Feb 26, 2017",feature,,unstarted,"Feb 10, 2017",,,Izabela Gomes,"As a user of the grocery app, I want to be able to add a new list
+
+**Given** a user is on the homepage
+**When** they fill out the input field
+**And** click on the add button
+**Then** a new list is saved in the database
+**And** a new list is shown on the homepage",https://www.pivotaltracker.com/story/show/139560159,
+139560397,User should be able to delete a list,"",1,"Feb 20, 2017","Feb 26, 2017",feature,,unstarted,"Feb 10, 2017",,,Izabela Gomes,"As a user of the grocery app, I want to be able to delete a list
+
+**Given** a user is on the homepage
+**When** they click on the delete button
+**Then** the list is removed from the database
+**And** the list is not shown in the homepage anymore",https://www.pivotaltracker.com/story/show/139560397,
+139559655,User should be able to search for an item,"",1,"Feb 20, 2017","Feb 26, 2017",feature,,unstarted,"Feb 10, 2017",,,Izabela Gomes,"As a user of the grocery app, I want to be able to search for an item in a list, so that I don't have to scroll to find the item
+
+**Given** a user is on the list page
+**When** they start typing in the search box
+**Then** they should see all the items that match that text
+
+**Given** a user is typing in the search box
+**When** they click on a search result
+**Then** they are redirected to the item page",https://www.pivotaltracker.com/story/show/139559655,
